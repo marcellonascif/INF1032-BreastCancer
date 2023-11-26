@@ -1,5 +1,6 @@
 # Importando bibliotecas necessárias
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
@@ -9,8 +10,8 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 file_path = 'dataset/breast-cancer.csv'
 df = pd.read_csv(file_path)
 
-X = df.drop(columns=['recurrence'])  # Recursos (atributos)
-y = df['recurrence']  # Recorrencia do cancer
+y = df['recurrence']  # Classes
+X = df.drop(columns=['recurrence'])  # Dados dos pacientes
 
 age_avg = {
     '20-29': 24.5,
@@ -23,8 +24,8 @@ age_avg = {
 
 menopause_num = {
     'premeno': 0,
-    'ge40'   : 1,
-    'lt40'   : 2
+    'lt40'   : 1,
+    'ge40'   : 2
     }
 
 tumor_size_avg = {
@@ -91,8 +92,12 @@ X['irradiat'] = X['irradiat'].map(irradiat_num)
 # print(X['tumor-size'].value_counts())
 # print(X['inv-nodes'].value_counts())
 
+# Gere um estado aleatório
+random_number = np.random.RandomState()
+
 # Dividindo os dados em conjuntos de treinamento e teste #0.40 é teste
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=22)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.55, random_state=random_number)
+print(random_number)
 
 # Choosing number of neighbors (k)
 knn_classifier = KNeighborsClassifier(n_neighbors=10)
@@ -111,7 +116,7 @@ classification_rep = classification_report(y_test, y_pred)
 
 # Imprimindo os resultados
 # print(f"Acurácia: {accuracy}")
-print("\nMatriz de Confusão:")
-print(confusion_mat)
+# print("\nMatriz de Confusão:")
+# print(confusion_mat)
 print("\nRelatório de Classificação:")
 print(classification_rep)
