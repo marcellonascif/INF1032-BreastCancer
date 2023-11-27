@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
 
 # Carregando o conjunto de dados
 file_path = 'dataset/breast-cancer.csv'
@@ -114,23 +115,17 @@ classification_rep = classification_report(y_test, y_pred)
 print("\nRelatório de Classificação:")
 print(classification_rep)
 
-def plot_decision_boundary(X, y, model, title):
-    h = .02  # passo do grid
+# Matriz de confusão
+confusion_mat = confusion_matrix(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred)
 
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+# Visualizando a matriz de confusão
+plt.figure(figsize=(8, 6))
+sns.heatmap(confusion_mat, annot=True, fmt='d', cmap='Blues', xticklabels=['No Recurrence', 'Recurrence'], yticklabels=['No Recurrence', 'Recurrence'])
+plt.title('Matriz de Confusão para o Classificador SVM')
+plt.ylabel('Verdadeiro')
+plt.xlabel('Previsto')
+plt.show()
 
-    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-
-    plt.figure(figsize=(8, 6))
-    plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.3)
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.coolwarm, edgecolors='k', marker='o')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
-    plt.title(title)
-    plt.show()
-
-# Plotar a fronteira de decisão usando Matplotlib
-plot_decision_boundary(X, y, svm_classifier, 'SVM Decision Boundary with Matplotlib')
+print("\nRelatório de Classificação:")
+print(classification_rep)

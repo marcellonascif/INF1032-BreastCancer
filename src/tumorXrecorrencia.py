@@ -1,29 +1,20 @@
-# Pergunta: Como os tamanhos de tumores influenciam na recorrência de eventos de câncer de mama?
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
-pd.set_option('display.max_rows', None)
-
-# get dataframe from dataset csv
+# Carregar o conjunto de dados
 file_path = 'dataset/breast-cancer.csv'
 dataframe = pd.read_csv(file_path)
 
-columns = ['recurrence', 'tumor-size']
+# Selecionar as colunas relevantes
+columns = ['tumor-size']
 df = dataframe[columns]
 
-print(df['tumor-size'].value_counts())
+# Contagem de casos por tamanho de tumor
+tumor_size_counts = df['tumor-size'].value_counts()
 
-# sort df by age and tumor-size
-df = df.sort_values(by=['tumor-size'])
-# print(df)
-
-sns.set(style="whitegrid")
-plt.figure(figsize=(10, 6))
-sns.histplot(data=df, x='tumor-size', hue='recurrence', multiple='stack', binwidth=5)
-plt.title('Tamanho do tumor em pacientes com e sem recorrência de eventos de Câncer de Mama')
-plt.xlabel('Tamanho do tumor')
-plt.ylabel('Contagem de Pacientes')
+# Criar o gráfico de pizza
+plt.figure(figsize=(8, 8))
+tumor_size_counts.plot(kind='pie', autopct='%1.1f%%', startangle=140, colors=plt.cm.tab20c(range(len(tumor_size_counts))))
+plt.title('Proporção de Tamanhos de Tumor em Todos os Casos de Câncer de Mama')
+plt.ylabel('')  # Removendo o label do eixo y para melhorar a estética
 plt.show()
