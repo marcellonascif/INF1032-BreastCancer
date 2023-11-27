@@ -32,7 +32,7 @@ sns.set(style="whitegrid")
 plt.figure(figsize=(10, 6))
 
 sns.histplot(data=df, x='tumor-size', binwidth=5)
-plt.title('Tamanho de tumor dos pacientes da idade com maior recorrência de câncer')
+plt.title('Tamanho de tumor dos pacientes com recorrência da idade com maior recorrência de câncer')
 plt.xlabel('Tamanho do tumor')
 plt.ylabel('COntagem de Pacientes')
 plt.show()
